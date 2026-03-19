@@ -30,9 +30,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
-            ]
+            "styles": ["src/styles.scss"]
           },
           "configurations": {
             "production": {
@@ -74,11 +72,7 @@
           }
         },
         "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "runnerConfig": "vitest-base.config.ts",
-            "tsConfig": "tsconfig.spec.json"
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     }

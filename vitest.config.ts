@@ -1,3 +1,8 @@
-import base from './vitest-base.config';
+import { defineConfig } from 'vitest/config';
 
-export default base;
+export default defineConfig({
+  test: {
+    environment: 'jsdom',
+    include: ['src/**/*.spec.ts'],
+  },
+});
