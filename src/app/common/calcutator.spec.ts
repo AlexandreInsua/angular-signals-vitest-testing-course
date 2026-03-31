@@ -44,3 +44,22 @@ describe('Calculator', () => {
     expect(result).toBeNaN();
   });
 });
+
+describe('Vitest Fundametals', () => {
+  it('shows how mockReset() works for spies', () => {
+    const spy = vi.spyOn(calculator, 'add');
+    spy.mockReturnValue(10);
+    const result = calculator.add(2, 3);
+    expect(result).toBe(10);
+    expect(spy).toHaveBeenCalledOnce();
+    spy.mockRestore();
+  });
+
+  it.only('shows how mockReset() works pure mocks', () => {
+    const addMock = vi.fn().mockReturnValue(10);
+    const result = addMock(5, 5);
+    expect(result).toBe(10);
+    expect(addMock).toHaveBeenCalledOnce();
+    expect(addMock).toHaveBeenCalledWith(5, 5);
+  });
+});
