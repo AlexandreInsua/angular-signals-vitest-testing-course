@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { HelloWorld } from './hello-world';
 
-describe.only('Hello World', () => {
+describe('Hello World', () => {
   // representación do compoñente
   let fixture: ComponentFixture<HelloWorld>;
   // representación do elemento do dom

@@ -1,5 +1,5 @@
 import { Course } from '../model/course';
-import {  Lesson } from '../model/lesson';
+import { Lesson } from '../model/lesson';
 import { TabData } from '../tabs/tabs.model';
 
 export function createCourse(overrides: Partial<Course> = {}): Course {
@@ -8,20 +8,28 @@ export function createCourse(overrides: Partial<Course> = {}): Course {
     seqNo: 1,
     titles: {
       description: 'Angular Testing',
-      longDescription: 'A deep dive into testing'
+      longDescription: 'A deep dive into testing',
     },
     iconUrl: 'test.png',
     uploadedImageUrl: '',
     courseListIcon: '',
     category: 'BEGINNER',
     lessonsCount: 10,
-    ...overrides
+    ...overrides,
   };
 }
 
 export const MOCK_COURSES: Course[] = [
-  createCourse({ id: 1, category: 'BEGINNER', titles: { description: 'Beginner Course', longDescription: 'Theory' } }),
-  createCourse({ id: 2, category: 'ADVANCED', titles: { description: 'Advanced Course', longDescription: 'Practice' } })
+  createCourse({
+    id: 1,
+    category: 'BEGINNER',
+    titles: { description: 'Beginner Course', longDescription: 'Theory' },
+  }),
+  createCourse({
+    id: 2,
+    category: 'ADVANCED',
+    titles: { description: 'Advanced Course', longDescription: 'Practice' },
+  }),
 ];
 
 export const MOCK_LESSONS: Lesson[] = [
@@ -44,28 +52,27 @@ export const MOCK_LESSONS: Lesson[] = [
   { id: 117, seqNo: 17, description: 'Lesson 17', duration: '8:45', courseId: 1 },
   { id: 118, seqNo: 18, description: 'Lesson 18', duration: '9:15', courseId: 1 },
   { id: 119, seqNo: 19, description: 'Lesson 19', duration: '6:20', courseId: 1 },
-  { id: 120, seqNo: 20, description: 'Lesson 20', duration: '7:10', courseId: 1 }
+  { id: 120, seqNo: 20, description: 'Lesson 20', duration: '7:10', courseId: 1 },
 ];
 
 export const MOCK_TABS: TabData[] = [
   { label: 'Beginner', value: 'beginner' },
-  { label: 'Advanced', value: 'advanced' }
+  { label: 'Advanced', value: 'advanced' },
 ];
 
-export function getMockLessonsPage (
+export function getMockLessonsPage(
   courseId: number,
   filter = '',
   sortOrder = 'asc',
   pageNumber = 0,
-  pageSize = 3
-)  {
-
-  let lessons = MOCK_LESSONS.filter(l => l.courseId === courseId);
+  pageSize = 3,
+) {
+  let lessons = MOCK_LESSONS.filter((l) => l.courseId === courseId);
 
   if (filter?.trim()) {
-    console.log(`searching for ${filter}`)
+    console.log(`searching for ${filter}`);
     const q = filter.toLowerCase();
-    lessons = lessons.filter(l => l.description.toLowerCase().includes(q));
+    lessons = lessons.filter((l) => l.description.toLowerCase().includes(q));
   }
 
   lessons = [...lessons].sort((a, b) => {
@@ -77,5 +84,3 @@ export function getMockLessonsPage (
 
   return lessons.slice(start, end);
 }
-
-
