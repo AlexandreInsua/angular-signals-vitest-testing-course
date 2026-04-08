@@ -1,8 +1,9 @@
-import { Component, input, output, inject } from '@angular/core';
-import { Course } from '../model/course';
 import { Dialog } from '@angular/cdk/dialog';
-import { CoursesDialog } from '../courses-dialog/courses-dialog';
+import { Component, DestroyRef, inject, input, output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { CoursesDialog } from '../courses-dialog/courses-dialog';
+import { Course } from '../model/course';
 
 @Component({
   selector: 'courses-card-list',
@@ -15,15 +16,17 @@ export class CoursesCardList {
   courseEdited = output();
 
   private dialog = inject(Dialog);
+  private destroyRef = inject(DestroyRef);
 
   editCourse(course: Course) {
     const dialogRef = this.dialog.open(CoursesDialog, {
       width: '500px',
-      data: { course }
+      data: { course },
     });
 
-    dialogRef.closed.subscribe(result => {
+    dialogRef.closed.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((result) => {
       if (result) {
+        console.log({ result });
         this.courseEdited.emit();
       }
     });

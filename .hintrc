@@ -1,0 +1,6 @@
+{
+  "extends": ["development"],
+  "hints": {
+    "axe/text-alternatives": "warning"
+  }
+}
