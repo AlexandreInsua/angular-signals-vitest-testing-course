@@ -4,7 +4,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { CoursesService } from '../services/courses.service';
 import { MOCK_COURSES } from '../testing/testing-data';
 import { Courses } from './courses';
@@ -55,6 +55,8 @@ describe.only('Courses component', () => {
     expect(titles).toHaveLength(1);
     const titleEl = titles[0].nativeElement;
     expect(titleEl.textContent).toBe('Beginner Course');
+    // comproba que todas as chamadas se consumiron
+    httpMock.verify();
   });
 
   it('should show advances courses when tab clicked', async () => {
@@ -75,10 +77,12 @@ describe.only('Courses component', () => {
     expect(titles).toHaveLength(1);
     const titleEl = titles[0].nativeElement;
     expect(titleEl.textContent).toBe('Advanced Course');
-  });
-
-  afterEach(() => {
     // comproba que todas as chamadas se consumiron
     httpMock.verify();
   });
+
+  // no exemplo mete este código, pero eu non podo pq teño o 1º test
+  // afterEach(() => {
+  //   httpMock.verify();
+  // });
 });

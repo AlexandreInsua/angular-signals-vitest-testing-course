@@ -1,11 +1,11 @@
 import { Component, computed, inject, OnInit, resource, signal } from '@angular/core';
-import { Course } from '../model/course';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CoursesService } from '../services/courses.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { HighlightDirective } from '../directives/highlight.directive';
+import { Course } from '../model/course';
 import { DurationFormatPipe } from '../pipes/duration-format.pipe';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { CoursesService } from '../services/courses.service';
 
 @Component({
   selector: 'course-page',
@@ -26,11 +26,8 @@ export class CoursePage implements OnInit {
   searchInput = signal('');
 
   searchQuery = toSignal(
-    toObservable(this.searchInput).pipe(
-      debounceTime(400),
-      distinctUntilChanged()
-    ),
-    { initialValue: '' }
+    toObservable(this.searchInput).pipe(debounceTime(400), distinctUntilChanged()),
+    { initialValue: '' },
   );
 
   lessonsResource = resource({
@@ -38,12 +35,13 @@ export class CoursePage implements OnInit {
       const courseId = this.course()?.id;
       if (!courseId) return undefined;
 
+      // a función recource lánzase sempre que muda algunha das signals
       return {
         courseId,
         filter: this.searchQuery(),
         sortOrder: this.sortDirection(),
         pageNumber: this.pageIndex(),
-        pageSize: this.pageSize()
+        pageSize: this.pageSize(),
       };
     },
     loader: async ({ params }) => {
@@ -52,9 +50,9 @@ export class CoursePage implements OnInit {
         params.filter,
         params.sortOrder,
         params.pageNumber,
-        params.pageSize
+        params.pageSize,
       );
-    }
+    },
   });
 
   lessons = computed(() => this.lessonsResource.value() ?? []);
@@ -64,10 +62,10 @@ export class CoursePage implements OnInit {
   isFirstPage = computed(() => this.pageIndex() === 0);
   isLastPage = computed(() => this.currentPage() >= this.totalPages());
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
-    this.course.set(this.route.snapshot.data["course"]);
+    this.course.set(this.route.snapshot.data['course']);
   }
 
   onSearch(query: string) {
@@ -81,15 +79,15 @@ export class CoursePage implements OnInit {
   }
 
   nextPage() {
-    if (!this.isLastPage()) this.pageIndex.update(p => p + 1);
+    if (!this.isLastPage()) this.pageIndex.update((p) => p + 1);
   }
 
   prevPage() {
-    if (!this.isFirstPage()) this.pageIndex.update(p => p - 1);
+    if (!this.isFirstPage()) this.pageIndex.update((p) => p - 1);
   }
 
   toggleSort() {
-    this.sortDirection.update(dir => dir === 'asc' ? 'desc' : 'asc');
+    this.sortDirection.update((dir) => (dir === 'asc' ? 'desc' : 'asc'));
     this.pageIndex.set(0);
   }
 
