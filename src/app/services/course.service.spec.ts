@@ -73,7 +73,7 @@ describe('CoursesService', () => {
     // non hai estado que validar no servizo
   });
 
-  it.todo('should find lessons with correct query params', async () => {
+  it('should find lessons with correct query params', async () => {
     // executa a chamada
     const resultPromise = service.findLessons(12, 'filter-text', 'desc', 2, 10);
     // intercepta a petición contra endpoint
