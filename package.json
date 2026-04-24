@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:coverage": "vitest run --coverage",
     "server": "ts-node -P ./server/server.tsconfig.json ./server/server.ts"
   },
   "prettier": {
@@ -39,6 +40,7 @@
     "@angular/cli": "^21.1.1",
     "@angular/compiler-cli": "^21.1.1",
     "@types/express": "^5.0.6",
+    "@vitest/coverage-v8": "^4.1.5",
     "jsdom": "^27.1.0",
     "ts-node": "^10.9.2",
     "typescript": "~5.9.2",
