@@ -5,10 +5,10 @@ export default defineConfig({
     environment: 'jsdom',
     include: ['src/**/*.spec.ts'],
     coverage: {
-      provider: 'v8', 
-      reporter: ['text', 'html'],
+      provider: 'v8',
+      reporter: ['html'],
       reportsDirectory: './coverage',
-      exclude : ['node_modules/','**/*.spec.ts']
+      exclude: ['node_modules/', '**/*.spec.ts'],
     },
   },
 });

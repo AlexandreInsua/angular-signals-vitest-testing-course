@@ -16,6 +16,7 @@ describe.only('Courses component', () => {
   let component: Courses;
   let de: DebugElement;
   let httpMock: HttpTestingController;
+  // decaramos o harness para interactuar co compoñente de tabs
   let tabs: TabsHarness;
 
   beforeEach(async () => {
@@ -34,9 +35,12 @@ describe.only('Courses component', () => {
     de = fixture.debugElement;
     httpMock = TestBed.inject(HttpTestingController);
 
-    //
+    // TestbedHarnessEnvironment é unha utilidade que permite crear un loader
+    // para recuperar os harnesses dos compoñentes dentro do contexto de testing de Angular.
     const loader = TestbedHarnessEnvironment.loader(fixture);
-    //
+    // recuperamos o harness do compoñente de tabs, que nos permitirá interactuar con el
+    // de forma programática e independente da implementación do DOM.
+    // asumimos que só hai un compoñente de tabs
     tabs = await loader.getHarness(TabsHarness);
 
     fixture.detectChanges();
@@ -66,6 +70,11 @@ describe.only('Courses component', () => {
     expect(titleEl.textContent).toBe('Beginner Course');
     // comproba que todas as chamadas se consumiron
     httpMock.verify();
+
+    // comproba que as tabs se renderizan correctamente a través do harness
+    expect(await tabs.getTabLabel()).toEqual(['Beginner', 'Advanced']);
+    // comproba que a tab de beginner está activa
+    expect(await tabs.getActiveLabel()).toBe('Beginner');
   });
 
   it('should show advances courses when tab clicked', async () => {
@@ -75,9 +84,14 @@ describe.only('Courses component', () => {
     await fixture.whenStable();
     fixture.detectChanges();
     // recupera o bóton
-    const btn = de.query(By.css('.tab-link:last-child'));
+    // const btn = de.query(By.css('.tab-link:last-child'));
     // emite o evento
-    btn.nativeElement.click();
+    // btn.nativeElement.click();
+
+    // a través do harness, que é independente da implementación do DOM,
+    // podemos interactuar co compoñente de tabs de forma programática
+    await tabs.clickTabByIndex(1);
+
     // detecta os cambios
     fixture.detectChanges();
 
